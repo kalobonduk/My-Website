@@ -1,358 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Shahrier Hossain Fahim — BBA Graduate | MIS Major | Portfolio showcasing projects, experience, and expertise.">
-    <title>Shahrier Hossain Fahim | Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-    <!-- Google Fonts: Poppins (headings) + Inter (body) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <title>Shahrier Hossain Fahim</title>
+    <meta name="description" content="Shahrier Hossain Fahim — MIS graduate exploring the intersection of technology, data, and business. Portfolio showcasing projects, skills, and professional journey.">
 
-    <!-- Lucide Icons via CDN -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-
-    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+
+    <!-- Font Awesome (brand icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
-<body>
-    <!-- ===== NAVIGATION ===== -->
-    <header class="navbar" id="navbar">
-        <div class="container nav-container">
-            <a href="#home" class="nav-logo" aria-label="Home">
-                <span class="logo-text">Fahim</span>
-            </a>
 
-            <!-- Desktop Navigation -->
-            <nav class="nav-menu" id="navMenu" aria-label="Main navigation">
-                <ul class="nav-list">
-                    <li><a href="#home" class="nav-link active">Home</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#expertise" class="nav-link">Expertise</a></li>
-                    <li><a href="#projects" class="nav-link">Projects</a></li>
-                    <li><a href="#education" class="nav-link">Education</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
 
-            <!-- Mobile Hamburger Button -->
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
+<body class="home-body">
+
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+    </div>
+    <!-- Navigation -->
+    <nav>
+
+        <a href="#home" class="nav-brand">SHAHRIER.HOSSAIN.FAHIM</a>
+
+        <div class="nav-links">
+        <a href="portfolio.html">Portfolio</a>
+
+        <a href="resume.html">Resume</a>
+
+        <a href="contact.html">Contact</a>
         </div>
-    </header>
 
-    <main>
-        <!-- ===== SECTION 1: HOME (Hero) ===== -->
-        <section id="home" class="section hero-section">
-            <div class="container hero-container">
-                <!-- Profile Photo Placeholder -->
-                <div class="hero-image animate-on-scroll">
-                    <div class="profile-photo" aria-label="Profile photo of Shahrier Hossain Fahim">
-                        <i data-lucide="user" class="profile-icon"></i>
-                    </div>
+        <span class="nav-social-icons">
+            <a href="mailto:fahim.shahrier.11@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            <a href="https://www.facebook.com/shahrier.hossain.7" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/_touch_canopus/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/fahim-shahrier-hossain" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+
+
+        </span>
+
+        <!-- Mobile Hamburger -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+            <span></span>
+            <span></span>
+        </button>
+
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <a href="index.html" class="mobile-menu-name">SHAHRIER.HOSSAIN.FAHIM</a>
+            <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="portfolio.html">Portfolio</a>
+            <a href="resume.html">Resume</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="mobile-menu-socials">
+            <a href="mailto:fahim.shahrier.11@gmail.com"><i class="fas fa-envelope"></i></a>
+            <a href="https://www.facebook.com/shahrier.hossain.7" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/_touch_canopus/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/fahim-shahrier-hossain" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+
+
+        </div>
+    </div>
+
+
+    <main class="home-main">
+
+
+        <!-- HERO -->
+        <section id="home" class="hero-section">
+            <div class="hero-layout">
+                <div class="hero-image">
+                    <img
+                        src="assets/profile.jpg"
+                        alt="Shahrier Hossain Fahim"
+                        class="hero-photo"
+                    >
                 </div>
-
-                <!-- Hero Text Content -->
-                <div class="hero-content animate-on-scroll">
-                    <h1 class="hero-name">Shahrier Hossain Fahim</h1>
-                    <p class="hero-subtitle">BBA Graduate | Major in Management Information Systems</p>
-                    <p class="hero-tagline">Turning data into smart business strategies.</p>
-
-                    <!-- CTA Buttons -->
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">View Projects</a>
-                        <a href="#contact" class="btn btn-outline">Contact Me</a>
-                    </div>
-
-                    <!-- Social Icon Links -->
-                    <div class="hero-socials">
-                        <a href="mailto:fahim.shahrier.11@gmail.com" aria-label="Send email" class="social-link">
-                            <i data-lucide="mail"></i>
-                        </a>
-                        <a href="tel:+8801611296976" aria-label="Call phone" class="social-link">
-                            <i data-lucide="phone"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/shahrier-hossain-fahim" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" class="social-link">
-                            <i data-lucide="linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== SECTION 2: ABOUT ===== -->
-        <section id="about" class="section about-section">
-            <div class="container">
-                <h2 class="section-title animate-on-scroll">About Me</h2>
-                <p class="about-text animate-on-scroll">
-                    I am an MIS graduate and Office Associate with hands-on experience balancing academic project management and practical corporate operations. I bring a strong foundation in Power BI data visualization, administrative and supply-chain coordination, and cross-department collaboration. I enjoy solving workplace problems, organizing events, and turning raw data into actionable business strategies.
-                </p>
-
-                <!-- Stat / Highlight Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card animate-on-scroll">
-                        <div class="stat-icon"><i data-lucide="file-text"></i></div>
-                        <p class="stat-value">1</p>
-                        <p class="stat-label">Research Paper (Under Review)</p>
-                    </div>
-                    <div class="stat-card animate-on-scroll">
-                        <div class="stat-icon"><i data-lucide="calendar"></i></div>
-                        <p class="stat-value">2</p>
-                        <p class="stat-label">Major Events Organized</p>
-                    </div>
-                    <div class="stat-card animate-on-scroll">
-                        <div class="stat-icon"><i data-lucide="users"></i></div>
-                        <p class="stat-value">300+</p>
-                        <p class="stat-label">Attendees Managed at a Single Event</p>
-                    </div>
-                    <div class="stat-card animate-on-scroll">
-                        <div class="stat-icon"><i data-lucide="languages"></i></div>
-                        <p class="stat-value">B1–C1</p>
-                        <p class="stat-label">Bilingual (English &amp; Bangla)</p>
-                    </div>
+                <div class="hero-text">
+                    <h1>MIS graduate exploring the intersection of technology, data, and business, with a passion for learning, building, and solving problems.</h1>
                 </div>
             </div>
         </section>
 
-        <!-- ===== SECTION 3: EXPERTISE ===== -->
-        <section id="expertise" class="section expertise-section">
-            <div class="container">
-                <h2 class="section-title animate-on-scroll">Expertise</h2>
 
-                <!-- Technical Skills -->
-                <h3 class="skills-group-title animate-on-scroll">Technical Skills</h3>
-                <div class="skills-grid">
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="table"></i>
-                        <span>MS Excel</span>
-                    </div>
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="file-type"></i>
-                        <span>MS Word</span>
-                    </div>
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="presentation"></i>
-                        <span>MS PowerPoint</span>
-                    </div>
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="bar-chart-3"></i>
-                        <span>Power BI</span>
-                    </div>
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="database"></i>
-                        <span>ERP Systems</span>
-                    </div>
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="bot"></i>
-                        <span>AI Tools</span>
-                    </div>
+        <!-- INTRO -->
+        <section id="about" class="intro-section">
+
+            <div class="intro-layout">
+
+                <div class="intro-left">
+                    <div class="intro-line"></div>
+                    <span class="intro-label">Intro</span>
                 </div>
 
-                <!-- Soft Skills -->
-                <h3 class="skills-group-title animate-on-scroll">Soft Skills</h3>
-                <div class="skills-grid">
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="message-circle"></i>
-                        <span>Communication</span>
+                <div class="intro-right">
+                    <p>
+                        I was born and raised in Jashore District Southwest part of Bangladesh, in an environment where family, friendship, curiosity, and learning have always been an important part of my life. From an early age, I was fascinated by computers and technology—not just by using them, but by understanding what they could do and how they could make things better. That curiosity eventually grew into a strong interest in the connection between technology, business, and data.
+                    </p>
+
+                    <p>
+                        I earned my Bachelor of Business Administration in Management Information Systems from the American International University-Bangladesh (AIUB). What drew me to MIS was the idea that technology is more than just software and devices—it can be a powerful tool for solving business problems, improving decisions, and creating opportunities for growth. I became particularly interested in how businesses manage information, how valuable data can be turned into meaningful insights, and how tools and technologies can change the way organizations operate. My studies in Business Intelligence and Decision Support Systems and Data Warehouse and Data Mining strengthened that interest and encouraged me to explore the possibilities of data-driven decision-making.
+                    </p>
+
+                    <p>
+                        I am naturally a do-it-and-learn person. I enjoy getting my hands on something new, figuring out how it works, experimenting with different tools, and learning through experience. Technology continues to be one of my biggest interests, but it is only one part of who I am. I enjoy reading, discovering new skills, spending time with friends, and being around people. I have also explored creative interests such as pixel art and have always enjoyed video games. These days, I do not get as much time to play as I used to, but the curiosity and creativity behind those interests are still a part of me. Recently, I have also started playing football, which has given me another way to stay active and connected with others.
+                    </p>
+
+                    <p>
+                        I am someone who likes to keep moving, keep learning, and keep experimenting. I believe the best way to grow is to stay curious, take action, and be willing to try something unfamiliar. Whether it is a new technology, a new idea, a new skill, or a completely different challenge, I enjoy the process of figuring things out and turning curiosity into action.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Gallery Images -->
+            <div class="intro-gallery">
+                <img src="assets/gallery1.jpg" alt="Gallery image 1" class="gallery-image">
+                <img src="assets/gallery2.jpg" alt="Gallery image 2" class="gallery-image">
+            </div>
+
+        </section>
+
+
+        <!-- QUOTE -->
+        <section class="quote-section">
+            <div class="quote-content">
+                <button class="quote-arrow quote-prev" id="quotePrev"><i class="fas fa-arrow-left"></i></button>
+                <div class="quote-text">
+                    <div class="quote-slide active">
+                        <p>"The only way to do great work is to love what you do."</p>
+                        <span class="quote-author">Steve Jobs</span>
                     </div>
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="handshake"></i>
-                        <span>Collaboration</span>
+                    <div class="quote-slide">
+                        <p>"In the middle of difficulty lies opportunity."</p>
+                        <span class="quote-author">Albert Einstein</span>
                     </div>
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="refresh-cw"></i>
-                        <span>Adaptability</span>
+                    <div class="quote-slide">
+                        <p>"Success is not final, failure is not fatal: it is the courage to continue that counts."</p>
+                        <span class="quote-author">Winston Churchill</span>
                     </div>
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="rocket"></i>
-                        <span>Learning Agility</span>
+                    <div class="quote-slide">
+                        <p>"The future belongs to those who believe in the beauty of their dreams."</p>
+                        <span class="quote-author">Eleanor Roosevelt</span>
                     </div>
-                    <div class="skill-card animate-on-scroll">
-                        <i data-lucide="search"></i>
-                        <span>Attention to Detail</span>
+                    <div class="quote-slide">
+                        <p>"It is not the strongest of the species that survives, nor the most intelligent, but the one most responsive to change."</p>
+                        <span class="quote-author">Charles Darwin</span>
                     </div>
                 </div>
+                <button class="quote-arrow quote-next" id="quoteNext"><i class="fas fa-arrow-right"></i></button>
             </div>
         </section>
 
-        <!-- ===== SECTION 4: PROJECTS & EXPERIENCE ===== -->
-        <section id="projects" class="section projects-section">
-            <div class="container">
-                <h2 class="section-title animate-on-scroll">Projects &amp; Experience</h2>
 
-                <div class="projects-grid">
-                    <!-- Card 1: Office Associate -->
-                    <div class="project-card animate-on-scroll">
-                        <span class="project-tag tag-work">Work</span>
-                        <h3 class="project-title">Office Associate — Tradedeck Bangla International</h3>
-                        <p class="project-meta">10/2025 – 02/2026 | Banani, Dhaka</p>
-                        <p class="project-desc">Managed daily administrative operations, vendor and logistics coordination, tender/RFQ preparation for defense and public sector bids, and financial documentation including petty cash and invoice processing.</p>
-                    </div>
-
-                    <!-- Card 2: Summer Intern -->
-                    <div class="project-card animate-on-scroll">
-                        <span class="project-tag tag-work">Work</span>
-                        <h3 class="project-title">Summer Intern — Tech Village ITES Ltd.</h3>
-                        <p class="project-meta">08/2025 – 10/2025 | Mirpur DOHS, Dhaka</p>
-                        <p class="project-desc">Supported IT service management and technical operations, troubleshot hardware and software issues, and contributed to streamlining internal support workflows in a BPO environment.</p>
-                    </div>
-
-                    <!-- Card 3: Research -->
-                    <div class="project-card animate-on-scroll">
-                        <span class="project-tag tag-research">Research</span>
-                        <h3 class="project-title">AI-Blockchain in Life Insurance</h3>
-                        <p class="project-meta">2026 | Under Review</p>
-                        <p class="project-desc">Co-authored "Examining AI-Blockchain Adoption in Life Insurance through an Integrated HOT-TOE Framework," submitted to Telematics and Informatics Reports.</p>
-                    </div>
-
-                    <!-- Card 4: Event Organizer -->
-                    <div class="project-card animate-on-scroll">
-                        <span class="project-tag tag-event">Event</span>
-                        <h3 class="project-title">Organizer — AIUB Research and Development Club</h3>
-                        <p class="project-meta">10/2023 – 11/2025</p>
-                        <p class="project-desc">Launched and managed the R&amp;D Orientation and the R&amp;D Magic Mirror Exhibition, a university-level event attended by 300–350 students, coordinating logistics, prize-giving, and stakeholder communication.</p>
-                    </div>
-
-                    <!-- Card 5: Business Plan -->
-                    <div class="project-card animate-on-scroll">
-                        <span class="project-tag tag-competition">Competition</span>
-                        <h3 class="project-title">Business Plan Project — ECO Thrive</h3>
-                        <p class="project-meta">Fall 2024-25 | AIUB FBA Business Plan Exhibition</p>
-                        <p class="project-desc">Developed a 3R (Reduce, Reuse, Recycle)-focused sustainable waste management and green fertilizer business model, presenting it to faculty and peers with a focus on sustainability and community impact.</p>
-                    </div>
-
-                    <!-- Card 6: Advertising Competition -->
-                    <div class="project-card animate-on-scroll">
-                        <span class="project-tag tag-competition">Competition</span>
-                        <h3 class="project-title">Advertising Competition — ADSPIRE</h3>
-                        <p class="project-meta">2025</p>
-                        <p class="project-desc">Created a 60-second advertisement for STEP Footwear as part of a 5-person team; advanced to Round 2 out of 150+ competing teams, strengthening creative direction and brand messaging skills.</p>
-                    </div>
-                </div>
+        <!-- MUSIC / VIDEO SECTION -->
+        <section class="music-section">
+            <p class="music-label"><em>Current song on repeat:</em></p>
+            <div class="music-video">
+                <iframe src="https://www.youtube.com/embed/m_kZgCv_s5s" title="Current song on repeat" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </section>
 
-        <!-- ===== SECTION 5: EDUCATION ===== -->
-        <section id="education" class="section education-section">
-            <div class="container">
-                <h2 class="section-title animate-on-scroll">Education</h2>
 
-                <!-- Timeline -->
-                <div class="timeline">
-                    <div class="timeline-item animate-on-scroll">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h3 class="timeline-title">Bachelor of Business Administration (BBA), Major in MIS</h3>
-                            <p class="timeline-institution">American International University-Bangladesh (AIUB)</p>
-                            <p class="timeline-date">2022 – 2026</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item animate-on-scroll">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h3 class="timeline-title">Higher Secondary School Certificate (HSC), Business Studies</h3>
-                            <p class="timeline-institution">Govt. M M College, Jashore</p>
-                            <p class="timeline-date">2018 – 2020</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item animate-on-scroll">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h3 class="timeline-title">Secondary School Certificate (SSC), Business Studies</h3>
-                            <p class="timeline-institution">BAF Shaheen College Jashore</p>
-                            <p class="timeline-date">2016 – 2018</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Certificates -->
-                <h3 class="certificates-heading animate-on-scroll">Certificates</h3>
-                <ul class="certificates-list animate-on-scroll">
-                    <li>AIUB FBA Business Plan Exhibition — Certificate of Appreciation (2025)</li>
-                    <li>ADSPIRE — Certificate of Participation (2025)</li>
-                    <li>Mendeley Workshop — Certificate of Participation (2025)</li>
-                    <li>2nd English Olympiad — Certificate of Contribution (2018)</li>
-                    <li>Bangladesh Technical Education Board — National Skill Standard Basic Course (2018)</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- ===== SECTION 6: CONTACT ===== -->
-        <section id="contact" class="section contact-section">
-            <div class="container">
-                <h2 class="section-title animate-on-scroll">Get In Touch</h2>
-                <p class="contact-subtitle animate-on-scroll">Open to opportunities in operations, business analysis, and administrative management.</p>
-
-                <div class="contact-grid">
-                    <!-- Contact Info -->
-                    <div class="contact-info animate-on-scroll">
-                        <div class="contact-item">
-                            <i data-lucide="mail"></i>
-                            <a href="mailto:fahim.shahrier.11@gmail.com">fahim.shahrier.11@gmail.com</a>
-                        </div>
-                        <div class="contact-item">
-                            <i data-lucide="phone"></i>
-                            <a href="tel:+8801611296976">+8801611-296976</a>
-                        </div>
-                        <div class="contact-item">
-                            <i data-lucide="map-pin"></i>
-                            <span>Basundhara R/A, Dhaka, Bangladesh</span>
-                        </div>
-                        <div class="contact-item">
-                            <i data-lucide="linkedin"></i>
-                            <a href="https://www.linkedin.com/in/shahrier-hossain-fahim" target="_blank" rel="noopener noreferrer">LinkedIn Profile</a>
-                        </div>
-                    </div>
-
-                    <!-- Contact Form -->
-                    <form class="contact-form animate-on-scroll" id="contactForm" novalidate>
-                        <div class="form-group">
-                            <label for="formName">Name</label>
-                            <input type="text" id="formName" name="name" placeholder="Your Name" required aria-required="true">
-                            <span class="form-error" id="nameError">Please enter your name.</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="formEmail">Email</label>
-                            <input type="email" id="formEmail" name="email" placeholder="your@email.com" required aria-required="true">
-                            <span class="form-error" id="emailError">Please enter a valid email address.</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="formMessage">Message</label>
-                            <textarea id="formMessage" name="message" rows="5" placeholder="Your message..." required aria-required="true"></textarea>
-                            <span class="form-error" id="messageError">Please enter a message.</span>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-submit">
-                            <i data-lucide="send"></i>
-                            <span>Send Message</span>
-                        </button>
-                        <p class="form-success" id="formSuccess">Thank you! Your message has been sent successfully.</p>
-                    </form>
-                </div>
-            </div>
-        </section>
     </main>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <div class="container footer-container">
-            <p class="footer-copy">&copy; 2026 Shahrier Hossain Fahim. All rights reserved.</p>
-            <div class="footer-socials">
-                <a href="mailto:fahim.shahrier.11@gmail.com" aria-label="Send email" class="social-link">
-                    <i data-lucide="mail"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/shahrier-hossain-fahim" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" class="social-link">
-                    <i data-lucide="linkedin"></i>
-                </a>
-            </div>
-        </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; <span class="copyright-year"></span> Shahrier Hossain Fahim</p>
     </footer>
 
-    <!-- Main JavaScript -->
     <script src="js/main.js"></script>
+    <script>
+        // Mobile Menu - inline to ensure it works
+        document.addEventListener('DOMContentLoaded', function() {
+            var btn = document.getElementById('mobileMenuBtn');
+            var menu = document.getElementById('mobileMenu');
+            var closeBtn = document.getElementById('mobileMenuClose');
+
+            if (btn && menu) {
+                btn.addEventListener('click', function() {
+                    menu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            if (closeBtn && menu) {
+                closeBtn.addEventListener('click', function() {
+                    menu.classList.remove('open');
+                    document.body.style.overflow = '';
+                });
+            }
+
+            if (menu) {
+                menu.querySelectorAll('.mobile-menu-links a').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        menu.classList.remove('open');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            document.querySelectorAll('.copyright-year').forEach(function(el) { el.textContent = new Date().getFullYear(); });
+
+            // Quote Slideshow
+            var quoteSlides = document.querySelectorAll('.quote-slide');
+            var currentQuote = 0;
+            var prevBtn = document.getElementById('quotePrev');
+            var nextBtn = document.getElementById('quoteNext');
+
+            if (prevBtn && nextBtn && quoteSlides.length > 0) {
+                nextBtn.addEventListener('click', function() {
+                    quoteSlides[currentQuote].classList.remove('active', 'slide-left', 'slide-right');
+                    currentQuote = (currentQuote + 1) % quoteSlides.length;
+                    quoteSlides[currentQuote].classList.remove('slide-left', 'slide-right');
+                    quoteSlides[currentQuote].classList.add('active', 'slide-right');
+                });
+
+                prevBtn.addEventListener('click', function() {
+                    quoteSlides[currentQuote].classList.remove('active', 'slide-left', 'slide-right');
+                    currentQuote = (currentQuote - 1 + quoteSlides.length) % quoteSlides.length;
+                    quoteSlides[currentQuote].classList.remove('slide-left', 'slide-right');
+                    quoteSlides[currentQuote].classList.add('active', 'slide-left');
+                });
+            }
+        });
+    </script>
+
 </body>
+
 </html>

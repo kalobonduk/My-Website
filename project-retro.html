@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <title>Retro Computing | Shahrier Hossain Fahim</title>
+    <meta name="description" content="Retro Computing — Restoring old computers and experimenting with operating systems and Linux distributions.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html#home" class="nav-brand">SHAHRIER.HOSSAIN.FAHIM</a>
+        <div class="nav-links">
+        <a href="portfolio.html">Portfolio</a>
+        <a href="resume.html">Resume</a>
+        <a href="contact.html">Contact</a>
+        <span class="nav-social-icons">
+            <a href="mailto:fahim.shahrier.11@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            <a href="https://www.facebook.com/shahrier.hossain.7" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/_touch_canopus/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/fahim-shahrier-hossain" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </span>
+        </div>
+    </nav>
+
+    <main>
+        <section class="project-page">
+
+            <a href="portfolio.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
+
+            <h1>Retro Computing — Restoring & Exploring Old Computers</h1>
+
+            <div class="project-page-details">
+                <h3>About This Project</h3>
+                <p>
+                    Another hobby of mine is restoring old computers and experimenting with different operating systems and Linux distributions.
+                </p>
+                <p>
+                    I enjoy bringing older or low-spec hardware back to life, testing different operating systems, and exploring how software performs on hardware from different generations. This hobby allows me to learn more about computer hardware, operating systems, system configuration, troubleshooting, and Linux environments.
+                </p>
+                <p>
+                    What started as an interest in older computers has become a hands-on way for me to understand how technology evolves and how existing hardware can still be useful with the right software and configuration.
+                </p>
+
+                <h3>Skills & Tools</h3>
+                <ul>
+                    <li>Computer Hardware & Troubleshooting</li>
+                    <li>PC Restoration & Maintenance</li>
+                    <li>Operating Systems</li>
+                    <li>Linux & Linux Distributions</li>
+                    <li>OS Installation & Configuration</li>
+                    <li>System Optimization</li>
+                    <li>Hardware–Software Compatibility</li>
+                    <li>Technical Problem-Solving</li>
+                    <li>Retro Computing</li>
+                    <li>Experimentation & Self-Learning</li>
+                </ul>
+
+                <h3>Project Gallery</h3>
+            </div>
+
+            <div class="project-page-gallery">
+                <img src="assets/retro-computing/image1.jpg" alt="Retro Computing 1">
+                <img src="assets/retro-computing/image2.jpg" alt="Retro Computing 2">
+                <img src="assets/retro-computing/image3.jpg" alt="Retro Computing 3">
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span class="copyright-year"></span> Shahrier Hossain Fahim</p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-arrow lightbox-prev" id="lightboxPrev"><i class="fas fa-chevron-left"></i></button>
+        <img src="" alt="Full image" id="lightboxImg">
+        <button class="lightbox-arrow lightbox-next" id="lightboxNext"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        document.querySelectorAll('.copyright-year').forEach(function(el) { el.textContent = new Date().getFullYear(); });
+
+        // Lightbox with swipe
+        var lightbox = document.getElementById('lightbox');
+        var lightboxImg = document.getElementById('lightboxImg');
+        var lightboxPrev = document.getElementById('lightboxPrev');
+        var lightboxNext = document.getElementById('lightboxNext');
+        var galleryImages = document.querySelectorAll('.project-page-gallery img');
+        var currentIndex = 0;
+
+        galleryImages.forEach(function(img, index) {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', function() {
+                currentIndex = index;
+                lightboxImg.src = this.src;
+                lightbox.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        lightboxNext.addEventListener('click', function() {
+            currentIndex = (currentIndex + 1) % galleryImages.length;
+            lightboxImg.src = galleryImages[currentIndex].src;
+        });
+
+        lightboxPrev.addEventListener('click', function() {
+            currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+            lightboxImg.src = galleryImages[currentIndex].src;
+        });
+
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (!lightbox.classList.contains('open')) return;
+            if (e.key === 'ArrowRight') lightboxNext.click();
+            if (e.key === 'ArrowLeft') lightboxPrev.click();
+            if (e.key === 'Escape') { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,230 +1,163 @@
 /* ============================================================
    PORTFOLIO WEBSITE — MAIN JAVASCRIPT
-   Features: Smooth scroll, active nav highlighting,
-             hamburger menu, scroll animations, form validation,
-             navbar scroll effect, Lucide icons init
+   Features: Smooth scroll, slideshow, Lucide icons
    ============================================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Lucide icons
+// Page Loader
+window.addEventListener('load', function() {
+    var loader = document.getElementById('pageLoader');
+    if (loader) {
+        setTimeout(function() {
+            loader.classList.add('hidden');
+            document.body.classList.add('loaded');
+        }, 400);
+    }
+});
+
+// Initialize Lucide icons
+document.addEventListener('DOMContentLoaded', function () {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+});
 
-    // ===== DOM REFERENCES =====
-    const navbar = document.getElementById('navbar');
-    const navToggle = document.getElementById('navToggle');
-    const navMenu = document.getElementById('navMenu');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('.section');
-    const contactForm = document.getElementById('contactForm');
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
+// Smooth scroll for nav links
+document.querySelectorAll('nav a').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+        var targetId = this.getAttribute('href');
+        var targetElement = document.querySelector(targetId);
 
-    // Create mobile overlay element
-    const overlay = document.createElement('div');
-    overlay.classList.add('nav-overlay');
-    document.body.appendChild(overlay);
+        if (targetElement) {
+            e.preventDefault();
+            var navHeight = document.querySelector('nav').offsetHeight;
+            var targetPosition = targetElement.offsetTop - navHeight;
 
-    // ===== NAVBAR SCROLL EFFECT =====
-    // Adds shadow when page is scrolled past 50px
-    function handleNavbarScroll() {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Show name in navbar on scroll
+var navName = document.querySelector('.nav-name');
+var homeSection = document.getElementById('home');
+
+if (navName && homeSection) {
+    window.addEventListener('scroll', function () {
+        var homeBottom = homeSection.offsetTop + homeSection.offsetHeight;
+        if (window.scrollY > homeBottom - 100) {
+            navName.classList.add('visible');
         } else {
-            navbar.classList.remove('scrolled');
-        }
-    }
-
-    // ===== ACTIVE NAV LINK HIGHLIGHTING =====
-    // Highlights the nav link corresponding to the currently visible section
-    function updateActiveNavLink() {
-        const scrollPosition = window.scrollY + 150; // Offset for navbar height
-
-        sections.forEach((section) => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                navLinks.forEach((link) => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    }
-
-    // ===== HAMBURGER MENU TOGGLE =====
-    function toggleMobileMenu() {
-        const isOpen = navMenu.classList.contains('open');
-
-        if (isOpen) {
-            closeMobileMenu();
-        } else {
-            openMobileMenu();
-        }
-    }
-
-    function openMobileMenu() {
-        navMenu.classList.add('open');
-        navToggle.classList.add('open');
-        overlay.classList.add('open');
-        navToggle.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden'; // Prevent background scroll
-    }
-
-    function closeMobileMenu() {
-        navMenu.classList.remove('open');
-        navToggle.classList.remove('open');
-        overlay.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = ''; // Restore scroll
-    }
-
-    // Close menu when a nav link is clicked (mobile)
-    navLinks.forEach((link) => {
-        link.addEventListener('click', () => {
-            closeMobileMenu();
-        });
-    });
-
-    // Close menu when overlay is clicked
-    overlay.addEventListener('click', closeMobileMenu);
-
-    // Close menu on Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && navMenu.classList.contains('open')) {
-            closeMobileMenu();
+            navName.classList.remove('visible');
         }
     });
+}
 
-    // ===== SCROLL ANIMATIONS (Intersection Observer) =====
-    // Fades in elements as they enter the viewport
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px 0px -80px 0px',
-        threshold: 0.1
-    };
+// Slideshow function
+function startSlideshow(slideshowId, interval) {
 
-    const scrollObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                scrollObserver.unobserve(entry.target); // Animate only once
-            }
-        });
-    }, observerOptions);
+    var slideshow = document.getElementById(slideshowId);
 
-    animatedElements.forEach((el) => {
-        scrollObserver.observe(el);
-    });
+    if (!slideshow) return;
 
-    // ===== CONTACT FORM VALIDATION =====
-    function validateForm(e) {
-        e.preventDefault();
+    var slides = slideshow.querySelectorAll(".slide");
 
-        const nameInput = document.getElementById('formName');
-        const emailInput = document.getElementById('formEmail');
-        const messageInput = document.getElementById('formMessage');
-        const nameError = document.getElementById('nameError');
-        const emailError = document.getElementById('emailError');
-        const messageError = document.getElementById('messageError');
-        const formSuccess = document.getElementById('formSuccess');
+    var currentSlide = 0;
 
-        let isValid = true;
+    setInterval(function () {
 
-        // Reset previous errors
-        resetFormErrors();
+        slides[currentSlide].classList.remove("active");
 
-        // Validate Name
-        if (!nameInput.value.trim()) {
-            showError(nameInput, nameError);
-            isValid = false;
+        currentSlide++;
+
+        if (currentSlide >= slides.length) {
+            currentSlide = 0;
         }
 
-        // Validate Email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
-            showError(emailInput, emailError);
-            isValid = false;
-        }
+        slides[currentSlide].classList.add("active");
 
-        // Validate Message
-        if (!messageInput.value.trim()) {
-            showError(messageInput, messageError);
-            isValid = false;
-        }
+    }, interval);
+}
 
-        // If valid, show success message
-        if (isValid) {
-            formSuccess.classList.add('visible');
-            contactForm.reset();
+startSlideshow("project2-slideshow", 3000);
+startSlideshow("project3-slideshow", 3000);
 
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                formSuccess.classList.remove('visible');
-            }, 5000);
-        }
+// Typewriter effect
+var typewriterWords = ["PROBLEM SOLVING?", "ANALYZING?", "DATA MINING?", "RESEARCHING?", "LEARNING?"];
+var typewriterColors = ["#00ffff", "#0080ff", "#0000ff", "#8000ff", "#ff00ff"];
+var wordIndex = 0;
+var charIndex = 0;
+var isDeleting = false;
+var typewriterElement = document.getElementById("typewriter");
+
+function typeWriter() {
+    var currentWord = typewriterWords[wordIndex];
+
+    if (isDeleting) {
+        typewriterElement.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+    } else {
+        typewriterElement.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
     }
 
-    function showError(input, errorElement) {
-        input.classList.add('invalid');
-        errorElement.classList.add('visible');
+    typewriterElement.style.color = typewriterColors[wordIndex];
+
+    var speed = 100;
+
+    if (isDeleting) {
+        speed = 50;
     }
 
-    function resetFormErrors() {
-        const inputs = contactForm.querySelectorAll('input, textarea');
-        const errors = contactForm.querySelectorAll('.form-error');
-        const formSuccess = document.getElementById('formSuccess');
-
-        inputs.forEach((input) => input.classList.remove('invalid'));
-        errors.forEach((error) => error.classList.remove('visible'));
-        formSuccess.classList.remove('visible');
+    if (!isDeleting && charIndex === currentWord.length) {
+        speed = 2000;
+        isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex++;
+        if (wordIndex >= typewriterWords.length) {
+            wordIndex = 0;
+        }
+        speed = 500;
     }
 
-    // Remove error styling on input focus
-    const formInputs = contactForm.querySelectorAll('input, textarea');
-    formInputs.forEach((input) => {
-        input.addEventListener('focus', () => {
-            input.classList.remove('invalid');
-            const errorEl = input.parentElement.querySelector('.form-error');
-            if (errorEl) errorEl.classList.remove('visible');
+    setTimeout(typeWriter, speed);
+}
+
+typeWriter();
+
+// Mobile Menu Toggle
+var mobileMenuBtn = document.getElementById('mobileMenuBtn');
+var mobileMenu = document.getElementById('mobileMenu');
+var mobileMenuClose = document.getElementById('mobileMenuClose');
+
+if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', function () {
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
+}
+
+if (mobileMenuClose && mobileMenu) {
+    mobileMenuClose.addEventListener('click', function () {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+    });
+}
+
+// Close mobile menu when a link is clicked
+if (mobileMenu) {
+    mobileMenu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = '';
         });
     });
+}
 
-    // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
-    // Handles smooth scrolling for all internal anchor links
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement) {
-                e.preventDefault();
-                const navbarHeight = navbar.offsetHeight;
-                const targetPosition = targetElement.offsetTop - navbarHeight;
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // ===== EVENT LISTENERS =====
-    window.addEventListener('scroll', () => {
-        handleNavbarScroll();
-        updateActiveNavLink();
-    }, { passive: true });
-
-    navToggle.addEventListener('click', toggleMobileMenu);
-    contactForm.addEventListener('submit', validateForm);
-
-    // ===== INITIAL STATE =====
-    // Run on page load to set correct states
-    handleNavbarScroll();
-    updateActiveNavLink();
+// Auto-update copyright year
+document.querySelectorAll('.copyright-year').forEach(function(el) {
+    el.textContent = new Date().getFullYear();
 });
