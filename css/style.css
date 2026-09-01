@@ -10,6 +10,7 @@ body {
 
 * {
     box-sizing: border-box;
+    min-width: 0;
 }
 
 img {
@@ -45,24 +46,25 @@ nav {
 .nav-social-icons {
     display: inline-flex;
     align-items: center;
-    gap: 15px;
+    gap: 18px;
+    margin-left: 25px;
 }
 
 .nav-social-icons a {
-    color: #222 !important;
-    font-size: 15px;
+    color: #555 !important;
+    font-size: 16px;
     margin: 0 !important;
+    transition: color 0.2s ease;
 }
 
 .nav-social-icons a:hover {
-    color: #0077cc !important;
+    color: #2874a6 !important;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
     gap: 0;
-    margin: 0 auto;
 }
 
 nav a {
@@ -190,7 +192,6 @@ nav a.active-nav {
     justify-content: center;
     gap: 40px;
     flex: 1;
-    margin-right: 60px;
 }
 
 .mobile-menu-links a {
@@ -228,7 +229,6 @@ nav a.active-nav {
     gap: 25px;
     padding-top: 20px;
     padding-bottom: 50px;
-    margin-right: 60px;
 }
 
 .mobile-menu-socials a {
@@ -618,8 +618,10 @@ footer p {
     border: 1px solid #ddd;
     border-radius: 12px;
     overflow: hidden;
-    padding: 20px;
+    padding: 0;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card:hover {
@@ -628,7 +630,11 @@ footer p {
 }
 
 .project-content {
-    padding-top: 10px;
+    padding: 18px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .project-content h3 {
@@ -640,6 +646,14 @@ footer p {
 .project-content p {
     font-size: 14px;
     color: #444;
+}
+
+.project-skills {
+    margin-top: auto;
+}
+
+.project-button {
+    margin-top: 10px;
 }
 
 .project-meta {
@@ -682,7 +696,8 @@ footer p {
 
 .project-skills {
     color: #555;
-    font-size: 14px;
+    font-size: 13px;
+    padding-top: 8px;
 }
 
 .project-button {
@@ -692,7 +707,7 @@ footer p {
     background-color: #0077cc;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 20px;
     font-size: 14px;
     transition: background-color 0.2s ease;
 }
@@ -703,19 +718,17 @@ footer p {
 
 .project-image {
     width: 100%;
-    height: 200px;
+    height: 180px;
     object-fit: cover;
     display: block;
-    border-radius: 8px;
 }
 
 /* Slideshow */
 .slideshow {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: 180px;
     overflow: hidden;
-    border-radius: 8px;
 }
 
 .slide {
@@ -729,6 +742,19 @@ footer p {
 
 .slide.active {
     opacity: 1;
+}
+
+/* Project video on card — same position as image (above content) */
+.project-card > .project-video {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.project-card > .project-video iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
 /* ===== COURSES GRID ===== */
@@ -1053,6 +1079,10 @@ footer p {
     .project-container {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    nav {
+        padding: 15px 20px;
+    }
 }
 
 /* ===== RESPONSIVE: Small Tablet / Large Phone (600px - 768px) ===== */
@@ -1070,24 +1100,6 @@ footer p {
     .hero-section .profile-photo {
         width: 180px;
         height: 220px;
-    }
-
-    .home-content {
-        flex-direction: column-reverse;
-        text-align: center;
-    }
-
-    .home-text h1 {
-        text-align: center;
-    }
-
-    .home-image {
-        flex: none;
-    }
-
-    .profile-photo {
-        width: 180px;
-        height: 180px;
     }
 
     .project-container {
@@ -1125,6 +1137,29 @@ footer p {
     section > h2 {
         font-size: 26px;
     }
+
+    /* Nav: hide links on tablet, show hamburger */
+    .nav-links {
+        display: none !important;
+    }
+    .nav-social-icons {
+        display: none !important;
+    }
+    .mobile-menu-btn {
+        display: flex !important;
+        flex-direction: column;
+        gap: 6px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+    }
+    .mobile-menu-btn span {
+        width: 28px;
+        height: 3px;
+        background-color: #2874a6;
+        border-radius: 2px;
+    }
 }
 
 /* ===== RESPONSIVE: Mobile (max 600px) ===== */
@@ -1143,7 +1178,7 @@ footer p {
     }
 
     .nav-brand {
-        font-size: 16px !important;
+        font-size: 14px !important;
         color: #2874a6 !important;
     }
 
@@ -1155,7 +1190,6 @@ footer p {
         display: none !important;
     }
 
-    /* Mobile Hamburger Button */
     .mobile-menu-btn {
         display: flex !important;
         flex-direction: column;
@@ -1174,10 +1208,9 @@ footer p {
     }
 
     main {
-        padding: 0 20px 40px;
+        padding: 0 15px 40px;
     }
 
-    /* Hero on mobile */
     .hero-section {
         background-color: #2874a6;
         padding: 40px 0;
@@ -1186,12 +1219,12 @@ footer p {
 
     .hero-layout {
         flex-direction: column;
-        gap: 40px;
+        gap: 30px;
         text-align: left;
     }
 
     .hero-text h1 {
-        font-size: 26px;
+        font-size: 22px;
         text-align: left;
         color: #ffffff;
     }
@@ -1204,20 +1237,25 @@ footer p {
     .hero-image {
         flex: none;
         text-align: center;
+        width: 100%;
     }
 
     .hero-section .profile-photo {
-        width: 220px;
-        height: 270px;
+        width: 200px;
+        height: 250px;
         border-radius: 8px;
         border: none;
     }
 
-    /* Intro on mobile */
     .intro-section {
         background-color: #2874a6;
-        padding: 40px 0;
+        padding: 30px 0;
         border-top: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .intro-layout {
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .intro-header h2 {
@@ -1229,42 +1267,66 @@ footer p {
         background-color: rgba(255, 255, 255, 0.5);
     }
 
-    .intro-content p {
+    .intro-content p,
+    .intro-right p {
         color: rgba(255, 255, 255, 0.9);
-        font-family: Georgia, serif;
-        font-style: italic;
-        font-size: 16px;
+        font-size: 15px;
         line-height: 1.8;
     }
 
-    /* Typewriter on mobile */
+    .intro-gallery {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .gallery-image {
+        height: 180px;
+    }
+
     .typewriter-section {
         background-color: #2874a6;
-        padding: 30px 0;
-    }
-
-    .typewriter-text {
-        font-size: 18px;
-        color: #ffffff;
-    }
-
-    /* Sections on mobile */
-    section {
-        background-color: transparent;
         padding: 25px 0;
     }
 
+    .typewriter-text {
+        font-size: 17px;
+        color: #ffffff;
+    }
+
+    section {
+        background-color: transparent;
+        padding: 20px 0;
+    }
+
     section > h2 {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     h1 {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .project-container {
         grid-template-columns: 1fr;
         gap: 15px;
+    }
+
+    .project-content h3 {
+        font-size: 15px;
+    }
+
+    .project-content p {
+        font-size: 13px;
+    }
+
+    .project-image,
+    .slideshow {
+        height: 160px;
+    }
+
+    .project-card > .project-video {
+        height: 160px;
     }
 
     .skills-container {
@@ -1279,7 +1341,7 @@ footer p {
     .contact-form textarea {
         width: 100%;
         font-size: 16px;
-        padding: 14px 15px;
+        padding: 12px 14px;
         box-sizing: border-box;
     }
 
@@ -1294,7 +1356,7 @@ footer p {
 
     .contact-subtitle {
         font-size: 14px;
-        padding: 0 10px;
+        padding: 0 5px;
     }
 
     .contact-info-item {
@@ -1307,102 +1369,105 @@ footer p {
     }
 
     #contact {
-        padding: 25px 15px;
+        padding: 20px 15px;
         background-color: #ffffff;
         border-radius: 10px;
     }
 
-    .profile-photo {
-        width: 150px;
-        height: 150px;
-    }
-
-    .intro-gallery {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .gallery-image {
-        height: 200px;
-    }
-
     .quote-section {
-        padding: 40px 20px;
+        padding: 35px 15px;
     }
 
-    .quote-text p {
-        font-size: 20px;
-    }
-
-    .quote-arrow {
-        width: 38px;
-        height: 38px;
-        font-size: 14px;
-    }
-
-    .music-section {
-        padding: 35px 20px;
-    }
-
-    .music-video {
-        max-width: 260px;
-    }
-
-    /* Footer on mobile */
-    footer {
-        background-color: #222;
-        border-top: none;
-    }
-
-    footer p {
-        color: white;
-        font-weight: normal;
-        font-size: 14px;
-    }
-}
-
-/* ===== RESPONSIVE: Small Mobile (max 380px) ===== */
-@media (max-width: 380px) {
-    .nav-brand {
-        font-size: 14px !important;
-    }
-
-    .hero-text h1 {
-        font-size: 22px;
-    }
-
-    .hero-section .profile-photo {
-        width: 180px;
-        height: 220px;
-    }
-
-    .intro-content p {
-        font-size: 15px;
-    }
-
-    .typewriter-text {
-        font-size: 16px;
+    .quote-content {
+        flex-direction: column;
+        gap: 15px;
     }
 
     .quote-text p {
         font-size: 18px;
     }
 
-    .project-content h3 {
-        font-size: 15px;
+    .quote-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
     }
 
-    .project-content p {
+    .music-section {
+        padding: 30px 15px;
+    }
+
+    .music-video {
+        max-width: 100%;
+    }
+
+    .music-video iframe {
+        height: 180px;
+    }
+
+    footer {
+        background-color: #222;
+    }
+
+    footer p {
+        color: white;
         font-size: 13px;
     }
 
+    .filter-tabs {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .filter-btn {
+        font-size: 13px;
+        padding: 7px 14px;
+    }
+}
+
+/* ===== RESPONSIVE: Small Mobile (max 380px) ===== */
+@media (max-width: 380px) {
+    .nav-brand {
+        font-size: 13px !important;
+    }
+
+    .hero-text h1 {
+        font-size: 19px;
+    }
+
+    .hero-section .profile-photo {
+        width: 170px;
+        height: 210px;
+    }
+
+    .intro-right p,
+    .intro-content p {
+        font-size: 14px;
+    }
+
+    .typewriter-text {
+        font-size: 15px;
+    }
+
+    .quote-text p {
+        font-size: 16px;
+    }
+
+    .project-content h3 {
+        font-size: 14px;
+    }
+
+    .project-content p {
+        font-size: 12px;
+    }
+
     .mobile-menu-links a {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .contact-form input,
     .contact-form textarea {
-        padding: 12px;
+        padding: 10px 12px;
         font-size: 15px;
     }
 }

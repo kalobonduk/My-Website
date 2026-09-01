@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title id="page-title">Project | Shahrier Hossain Fahim</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/portfolio.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Fix text overflow */
+        .project-page-details p,
+        .project-page-details div,
+        .project-page h1 {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+        .project-page {
+            overflow: hidden;
+        }
+        .project-video-large iframe {
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="/index.html#home" class="nav-brand">SHAHRIER.HOSSAIN.FAHIM</a>
+        <div class="nav-links">
+            <a href="/portfolio">Portfolio</a>
+            <a href="/resume">Resume</a>
+            <a href="/contact">Contact</a>
+            <span class="nav-social-icons" id="nav-socials"></span>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <a href="/index.html" class="mobile-menu-name">SHAHRIER.HOSSAIN.FAHIM</a>
+            <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="/portfolio">Portfolio</a>
+            <a href="/resume">Resume</a>
+            <a href="/contact">Contact</a>
+        </div>
+        <div class="mobile-menu-socials" id="mobile-socials"></div>
+    </div>
+
+    <main>
+        <section class="project-page">
+            <a href="/portfolio" class="back-link"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
+            <h1 id="project-title">Loading...</h1>
+
+            <div class="project-page-details">
+                <h3>About This Project</h3>
+                <div id="project-description"></div>
+
+                <h3>Skills Used</h3>
+                <p id="project-skills"></p>
+
+                <div id="project-video-container" style="display:none;">
+                    <h3>Video</h3>
+                    <div class="project-video-large" id="project-video"></div>
+                </div>
+
+                <h3 id="gallery-heading" style="display:none;">Project Gallery</h3>
+            </div>
+
+            <div class="project-page-gallery" id="project-gallery"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span class="copyright-year"></span> Shahrier Hossain Fahim</p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-arrow lightbox-prev" id="lightboxPrev"><i class="fas fa-chevron-left"></i></button>
+        <img src="" alt="Full image" id="lightboxImg">
+        <button class="lightbox-arrow lightbox-next" id="lightboxNext"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        document.querySelectorAll('.copyright-year').forEach(function(el) { el.textContent = new Date().getFullYear(); });
+
+        // Mobile menu
+        var btn = document.getElementById('mobileMenuBtn');
+        var menu = document.getElementById('mobileMenu');
+        var closeBtn = document.getElementById('mobileMenuClose');
+        if (btn && menu) { btn.addEventListener('click', function() { menu.classList.add('open'); document.body.style.overflow = 'hidden'; }); }
+        if (closeBtn && menu) { closeBtn.addEventListener('click', function() { menu.classList.remove('open'); document.body.style.overflow = ''; }); }
+
+        // Convert any YouTube URL to embed format
+        function toEmbedUrl(url) {
+            if (!url) return '';
+            // Already an embed URL
+            if (url.includes('/embed/')) return url;
+            // https://www.youtube.com/watch?v=VIDEO_ID
+            var match = url.match(/[?&]v=([^&]+)/);
+            if (match) return 'https://www.youtube.com/embed/' + match[1];
+            // https://youtu.be/VIDEO_ID
+            match = url.match(/youtu\.be\/([^?&]+)/);
+            if (match) return 'https://www.youtube.com/embed/' + match[1];
+            // https://www.youtube.com/v/VIDEO_ID
+            match = url.match(/youtube\.com\/v\/([^?&]+)/);
+            if (match) return 'https://www.youtube.com/embed/' + match[1];
+            // Return as-is if can't parse
+            return url;
+        }
+
+        // Load nav social links from DB
+        async function loadNavContacts() {
+            try {
+                var res = await fetch('/api/contact');
+                if (!res.ok) return;
+                var contacts = await res.json();
+                var navItems = contacts.filter(function(c) { return c.show_in_nav; });
+                var navHtml = navItems.map(function(c) {
+                    if (c.type === 'email') {
+                        return '<a href="mailto:' + c.value + '" aria-label="' + c.label + '"><i class="' + c.icon_class + '"></i></a>';
+                    }
+                    return '<a href="' + c.value + '" target="_blank" aria-label="' + c.label + '"><i class="' + c.icon_class + '"></i></a>';
+                }).join('');
+                document.getElementById('nav-socials').innerHTML = navHtml;
+
+                var mobileItems = contacts.filter(function(c) { return c.show_in_mobile_menu; });
+                var mobileHtml = mobileItems.map(function(c) {
+                    if (c.type === 'email') {
+                        return '<a href="mailto:' + c.value + '"><i class="' + c.icon_class + '"></i></a>';
+                    }
+                    return '<a href="' + c.value + '" target="_blank"><i class="' + c.icon_class + '"></i></a>';
+                }).join('');
+                document.getElementById('mobile-socials').innerHTML = mobileHtml;
+            } catch (e) {}
+        }
+
+        // Load project data from API
+        async function loadProject() {
+            var pathParts = window.location.pathname.split('/');
+            var projectId = pathParts[pathParts.length - 1];
+
+            try {
+                var res = await fetch('/api/portfolio/' + projectId);
+                if (!res.ok) {
+                    document.getElementById('project-title').textContent = 'Project Not Found';
+                    return;
+                }
+                var data = await res.json();
+
+                // Title
+                document.getElementById('project-title').textContent = data.title;
+                document.getElementById('page-title').textContent = data.title + ' | Shahrier Hossain Fahim';
+
+                // Description
+                document.getElementById('project-description').innerHTML = '<p>' + (data.detail_description || data.description || '') + '</p>';
+
+                // Skills
+                document.getElementById('project-skills').textContent = data.detail_skills || data.skills || '';
+
+                // Video — always show if video_url exists, convert to embed format
+                if (data.video_url) {
+                    var embedUrl = toEmbedUrl(data.video_url);
+                    document.getElementById('project-video-container').style.display = 'block';
+                    document.getElementById('project-video').innerHTML =
+                        '<iframe src="' + embedUrl + '" title="' + data.title + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                }
+
+                // Gallery — always show all images
+                var gallery = document.getElementById('project-gallery');
+                if (data.images && data.images.length) {
+                    document.getElementById('gallery-heading').style.display = 'block';
+                    gallery.innerHTML = data.images.map(function(img, i) {
+                        var src = img.image_path.startsWith('/') ? img.image_path : '/' + img.image_path;
+                        return '<img src="' + src + '" alt="Project image ' + (i + 1) + '">';
+                    }).join('');
+                    initLightbox();
+                }
+            } catch (err) {
+                document.getElementById('project-title').textContent = 'Error loading project';
+            }
+        }
+
+        function initLightbox() {
+            var lightbox = document.getElementById('lightbox');
+            var lightboxImg = document.getElementById('lightboxImg');
+            var lightboxPrev = document.getElementById('lightboxPrev');
+            var lightboxNext = document.getElementById('lightboxNext');
+            var galleryImages = document.querySelectorAll('.project-page-gallery img');
+            var currentIndex = 0;
+
+            galleryImages.forEach(function(img, index) {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', function() {
+                    currentIndex = index;
+                    lightboxImg.src = this.src;
+                    lightbox.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            lightboxNext.addEventListener('click', function() {
+                currentIndex = (currentIndex + 1) % galleryImages.length;
+                lightboxImg.src = galleryImages[currentIndex].src;
+            });
+
+            lightboxPrev.addEventListener('click', function() {
+                currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+                lightboxImg.src = galleryImages[currentIndex].src;
+            });
+
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    lightbox.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (!lightbox.classList.contains('open')) return;
+                if (e.key === 'ArrowRight') lightboxNext.click();
+                if (e.key === 'ArrowLeft') lightboxPrev.click();
+                if (e.key === 'Escape') { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
+            });
+        }
+
+        loadNavContacts();
+        loadProject();
+    </script>
+
+</body>
+</html>

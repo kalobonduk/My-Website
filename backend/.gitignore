@@ -1,0 +1,4 @@
+node_modules/
+.env
+install.js
+install.bat

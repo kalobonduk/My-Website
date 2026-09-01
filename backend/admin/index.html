@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — Fahim Portfolio</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand"><h2>Admin Panel</h2></div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="messages">Messages</a>
+                <a href="#" class="nav-item" data-section="homepage">Homepage</a>
+                <a href="#" class="nav-item" data-section="portfolio">Portfolio</a>
+                <a href="#" class="nav-item" data-section="images">Portfolio Images</a>
+                <a href="#" class="nav-item" data-section="resume">Resume</a>
+                <a href="#" class="nav-item" data-section="contact">Contact</a>
+            </nav>
+            <div class="sidebar-footer"><a href="/" target="_blank">View Site</a></div>
+        </aside>
+
+        <main class="admin-main">
+            <!-- ===== PORTFOLIO ===== -->
+            <section id="section-portfolio" class="admin-section">
+                <div class="section-header">
+                    <h1>Portfolio Projects</h1>
+                    <button class="btn btn-primary" onclick="showPortfolioForm()">+ Add Project</button>
+                </div>
+                <div class="filter-bar">
+                    <select id="portfolio-filter-category">
+                        <option value="all">All Categories</option>
+                        <option value="work">Work</option>
+                        <option value="competitions">Competitions</option>
+                        <option value="hobby">Hobby</option>
+                    </select>
+                    <select id="portfolio-sort">
+                        <option value="sort_order">Sort: Order</option>
+                        <option value="title">Sort: Title</option>
+                        <option value="category">Sort: Category</option>
+                        <option value="latest">Sort: Latest</option>
+                        <option value="oldest">Sort: Oldest</option>
+                    </select>
+                </div>
+                <div id="portfolio-form-container" class="form-container" style="display:none;">
+                    <form id="portfolioForm" onsubmit="savePortfolio(event)">
+                        <input type="hidden" id="portfolio-id">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input type="text" id="portfolio-title" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="portfolio-category" required>
+                                    <option value="work">Work</option>
+                                    <option value="competitions">Competitions</option>
+                                    <option value="hobby">Hobby</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Description (card)</label>
+                                <textarea id="portfolio-description" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Skills (comma-separated)</label>
+                                <input type="text" id="portfolio-skills">
+                            </div>
+                            <div class="form-group">
+                                <label>Image Type (card display)</label>
+                                <select id="portfolio-image-type">
+                                    <option value="none">None</option>
+                                    <option value="single">Single</option>
+                                    <option value="slideshow">Slideshow</option>
+                                    <option value="gif">GIF</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Sort Order</label>
+                                <input type="number" id="portfolio-sort-order" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Show Video on Card?</label>
+                                <select id="portfolio-has-video">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Video URL (YouTube embed)</label>
+                                <input type="text" id="portfolio-video-url" placeholder="https://www.youtube.com/embed/...">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Detail Description (project page)</label>
+                                <textarea id="portfolio-detail-description" rows="3"></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Detail Skills (project page)</label>
+                                <input type="text" id="portfolio-detail-skills">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" onclick="hidePortfolioForm()">Cancel</button>
+                        </div>
+                        <!-- Image management within portfolio form -->
+                        <div id="portfolio-images-section" style="margin-top:20px;padding-top:15px;border-top:1px solid #e2e8f0;">
+                            <h3 style="font-size:14px;color:#475569;margin-bottom:10px;">Project Images</h3>
+                            <div id="portfolio-images-list" style="margin-bottom:12px;"></div>
+                            <div style="display:flex;gap:10px;align-items:center;">
+                                <input type="file" id="portfolio-image-upload" accept="image/*,.gif" multiple style="font-size:13px;">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="uploadPortfolioImages()">Upload</button>
+                            </div>
+                            <p style="font-size:11px;color:#94a3b8;margin-top:6px;">Upload images for this project. Save the project first if it's new.</p>
+                        </div>
+                    </form>
+                </div>
+                <table class="data-table" id="portfolio-table">
+                    <thead><tr><th>ID</th><th>Title</th><th>Category</th><th>Image Type</th><th>Order</th><th>Actions</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- ===== PORTFOLIO IMAGES ===== -->
+            <section id="section-images" class="admin-section">
+                <div class="section-header">
+                    <h1>Portfolio Images</h1>
+                    <button class="btn btn-primary" onclick="showImageForm()">+ Add Image</button>
+                </div>
+                <div class="filter-bar">
+                    <select id="images-filter-project"><option value="all">All Projects</option></select>
+                </div>
+                <div id="image-form-container" class="form-container" style="display:none;">
+                    <form id="imageForm" onsubmit="saveImage(event)">
+                        <input type="hidden" id="image-id">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Portfolio Project</label>
+                                <select id="image-portfolio-id" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Sort Order</label>
+                                <input type="number" id="image-sort-order" value="0">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Upload Image/GIF</label>
+                                <input type="file" id="image-file-upload" accept="image/*,.gif" onchange="handleImageUpload()">
+                                <div id="upload-preview" style="margin-top:6px;"></div>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Image Path (auto-filled on upload, or enter manually)</label>
+                                <input type="text" id="image-path" placeholder="/uploads/filename.jpg or assets/...">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideImageForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <table class="data-table" id="images-table">
+                    <thead><tr><th>ID</th><th>Project</th><th>Image Path</th><th>Order</th><th>Actions</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- ===== CONTACT ===== -->
+            <section id="section-contact" class="admin-section">
+                <div class="section-header">
+                    <h1>Contact Entries</h1>
+                    <button class="btn btn-primary" onclick="showContactForm()">+ Add Entry</button>
+                </div>
+                <div id="contact-form-container" class="form-container" style="display:none;">
+                    <form id="contactForm" onsubmit="saveContact(event)">
+                        <input type="hidden" id="contact-id">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select id="contact-type" required>
+                                    <option value="email">Email</option>
+                                    <option value="facebook">Facebook</option>
+                                    <option value="instagram">Instagram</option>
+                                    <option value="linkedin">LinkedIn</option>
+                                    <option value="location">Location</option>
+                                    <option value="phone">Phone</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Label</label><input type="text" id="contact-label" required></div>
+                            <div class="form-group full-width"><label>Value</label><input type="text" id="contact-value" required></div>
+                            <div class="form-group"><label>Icon Class</label><input type="text" id="contact-icon" placeholder="fas fa-envelope"></div>
+                            <div class="form-group"><label>Sort Order</label><input type="number" id="contact-sort-order" value="0"></div>
+                            <div class="form-group"><label>Show in Nav?</label><select id="contact-show-nav"><option value="0">No</option><option value="1">Yes</option></select></div>
+                            <div class="form-group"><label>Show in Contact?</label><select id="contact-show-contact"><option value="1">Yes</option><option value="0">No</option></select></div>
+                            <div class="form-group"><label>Show in Mobile?</label><select id="contact-show-mobile"><option value="0">No</option><option value="1">Yes</option></select></div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideContactForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <table class="data-table" id="contact-table">
+                    <thead><tr><th>ID</th><th>Type</th><th>Label</th><th>Value</th><th>Nav</th><th>Contact</th><th>Mobile</th><th>Actions</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- ===== MESSAGES ===== -->
+            <section id="section-messages" class="admin-section active">
+                <div class="section-header"><h1>Messages</h1></div>
+                <div class="filter-bar">
+                    <select id="messages-filter-status">
+                        <option value="all">All Messages</option>
+                        <option value="unread">Unread</option>
+                        <option value="read">Read</option>
+                    </select>
+                    <select id="messages-sort">
+                        <option value="latest">Sort: Latest</option>
+                        <option value="oldest">Sort: Oldest</option>
+                    </select>
+                </div>
+                <table class="data-table" id="messages-table">
+                    <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- ===== RESUME ===== -->
+            <section id="section-resume" class="admin-section">
+                <div class="section-header">
+                    <h1>Resume</h1>
+                    <button class="btn btn-primary" onclick="showResumeForm()">+ Add Entry</button>
+                </div>
+                <div class="filter-bar">
+                    <select id="resume-filter-section">
+                        <option value="all">All Sections</option>
+                        <option value="education">Education</option>
+                        <option value="work_experience">Work Experience</option>
+                        <option value="leadership">Leadership</option>
+                        <option value="skills">Skills</option>
+                        <option value="research">Research</option>
+                    </select>
+                    <select id="resume-sort">
+                        <option value="section">Sort: Section</option>
+                        <option value="title">Sort: Title</option>
+                        <option value="date">Sort: Date</option>
+                        <option value="latest">Sort: Latest</option>
+                        <option value="oldest">Sort: Oldest</option>
+                    </select>
+                </div>
+                <div id="resume-form-container" class="form-container" style="display:none;">
+                    <form id="resumeForm" onsubmit="saveResume(event)">
+                        <input type="hidden" id="resume-id">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Section</label>
+                                <select id="resume-section" required>
+                                    <option value="education">Education</option>
+                                    <option value="work_experience">Work Experience</option>
+                                    <option value="leadership">Leadership & Extracurriculars</option>
+                                    <option value="skills">Skills</option>
+                                    <option value="research">Research & Publication</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Title</label><input type="text" id="resume-title" required></div>
+                            <div class="form-group"><label>Subtitle</label><input type="text" id="resume-subtitle"></div>
+                            <div class="form-group"><label>Date Range</label><input type="text" id="resume-date-range" placeholder="2022 – 2026"></div>
+                            <div class="form-group full-width"><label>Description / Bullets</label><textarea id="resume-description" rows="4" placeholder='Text or JSON array: ["Point 1","Point 2"]'></textarea></div>
+                            <div class="form-group"><label>Button Label</label><input type="text" id="resume-button-label"></div>
+                            <div class="form-group"><label>Button URL</label><input type="text" id="resume-button-url"></div>
+                            <div class="form-group full-width">
+                                <label>Upload File (PDF, image, etc.)</label>
+                                <input type="file" id="resume-file-upload" accept=".pdf,.doc,.docx,image/*" onchange="handleResumeFileUpload()">
+                                <div id="resume-upload-preview" style="margin-top:6px;"></div>
+                                <p style="font-size:11px;color:#94a3b8;margin-top:4px;">Uploaded file URL auto-fills into Button URL above.</p>
+                            </div>
+                            <div class="form-group"><label>Sort Order</label><input type="number" id="resume-sort-order" value="0"></div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideResumeForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <table class="data-table" id="resume-table">
+                    <thead><tr><th>ID</th><th>Section</th><th>Title</th><th>Subtitle</th><th>Date</th><th>Order</th><th>Actions</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <!-- ===== HOMEPAGE ===== -->
+            <section id="section-homepage" class="admin-section">
+                <div class="section-header">
+                    <h1>Homepage Content</h1>
+                    <button class="btn btn-primary" onclick="showHomepageForm()">+ Add Entry</button>
+                </div>
+                <div class="filter-bar">
+                    <select id="homepage-filter-section">
+                        <option value="all">All Sections</option>
+                        <option value="hero">Hero</option>
+                        <option value="intro">Intro</option>
+                        <option value="quotes">Quotes</option>
+                        <option value="music">Music</option>
+                    </select>
+                </div>
+                <div id="homepage-form-container" class="form-container" style="display:none;">
+                    <form id="homepageForm" onsubmit="saveHomepage(event)">
+                        <input type="hidden" id="homepage-id">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Section</label>
+                                <select id="homepage-section" required>
+                                    <option value="hero">Hero</option>
+                                    <option value="intro">Intro</option>
+                                    <option value="quotes">Quotes</option>
+                                    <option value="music">Music</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Content Key</label>
+                                <input type="text" id="homepage-key" required placeholder="e.g. tagline, paragraph_1, photo, quote_text">
+                            </div>
+                            <div class="form-group">
+                                <label>Content Type</label>
+                                <select id="homepage-type">
+                                    <option value="text">Text</option>
+                                    <option value="image">Image</option>
+                                    <option value="video">Video URL</option>
+                                    <option value="html">HTML</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Sort Order</label>
+                                <input type="number" id="homepage-sort-order" value="0">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Content Value</label>
+                                <textarea id="homepage-value" rows="4" placeholder="Text content, URL, or HTML"></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Upload File (optional — auto-fills value)</label>
+                                <input type="file" id="homepage-file-upload" accept="image/*,.gif,.pdf,video/*" onchange="handleHomepageFileUpload()">
+                                <div id="homepage-upload-preview" style="margin-top:6px;"></div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideHomepageForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <table class="data-table" id="homepage-table">
+                    <thead><tr><th>ID</th><th>Section</th><th>Key</th><th>Value</th><th>Type</th><th>Order</th><th>Actions</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- Message View Modal -->
+    <div id="messageModal" class="modal-overlay" onclick="closeMessageModal(event)">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeMessageModal()">&times;</button>
+            <h3 class="modal-title">Message</h3>
+            <div class="modal-field">
+                <span class="modal-label">From</span>
+                <p id="modal-name"></p>
+            </div>
+            <div class="modal-field">
+                <span class="modal-label">Email</span>
+                <p id="modal-email" style="color:#3b82f6;"></p>
+            </div>
+            <div class="modal-field">
+                <span class="modal-label">Date</span>
+                <p id="modal-date" style="color:#64748b;font-size:13px;"></p>
+            </div>
+            <div class="modal-field">
+                <span class="modal-label">Status</span>
+                <p id="modal-status"></p>
+            </div>
+            <div class="modal-field">
+                <span class="modal-label">Message</span>
+                <p id="modal-message" class="modal-message-body"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

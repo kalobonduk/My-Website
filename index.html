@@ -186,6 +186,108 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        // Load homepage content from DB
+        async function loadHomepageContent() {
+            try {
+                var res = await fetch('http://localhost:3000/api/homepage');
+                if (!res.ok) return;
+                var data = await res.json();
+                if (!data.length) return;
+
+                // Helper to find content
+                function get(section, key) {
+                    var item = data.find(function(d) { return d.section === section && d.content_key === key; });
+                    return item ? item.content_value : null;
+                }
+                function getAll(section, keyPrefix) {
+                    return data.filter(function(d) { return d.section === section && d.content_key.startsWith(keyPrefix); })
+                        .sort(function(a, b) { return a.sort_order - b.sort_order; });
+                }
+
+                // HERO
+                var heroPhoto = get('hero', 'photo');
+                if (heroPhoto) {
+                    var photoEl = document.querySelector('.hero-photo');
+                    if (photoEl) photoEl.src = heroPhoto.startsWith('/') ? heroPhoto : '/' + heroPhoto;
+                }
+                var heroTagline = get('hero', 'tagline');
+                if (heroTagline) {
+                    var h1El = document.querySelector('.hero-text h1');
+                    if (h1El) h1El.textContent = heroTagline;
+                }
+
+                // INTRO paragraphs
+                var introParagraphs = getAll('intro', 'paragraph');
+                if (introParagraphs.length) {
+                    var introRight = document.querySelector('.intro-right');
+                    if (introRight) {
+                        introRight.innerHTML = introParagraphs.map(function(p) {
+                            return '<p>' + p.content_value + '</p>';
+                        }).join('');
+                    }
+                }
+
+                // INTRO gallery images
+                var galleryImages = getAll('intro', 'gallery');
+                if (galleryImages.length) {
+                    var galleryEl = document.querySelector('.intro-gallery');
+                    if (galleryEl) {
+                        galleryEl.innerHTML = galleryImages.map(function(img) {
+                            var src = img.content_value.startsWith('/') ? img.content_value : '/' + img.content_value;
+                            return '<img src="' + src + '" alt="Gallery image" class="gallery-image">';
+                        }).join('');
+                    }
+                }
+
+                // QUOTES
+                var quotes = getAll('quotes', 'quote');
+                if (quotes.length) {
+                    var quoteText = document.querySelector('.quote-text');
+                    if (quoteText) {
+                        quoteText.innerHTML = quotes.map(function(q, i) {
+                            var parts = q.content_value.split('|');
+                            var text = parts[0] || '';
+                            var author = parts[1] || '';
+                            return '<div class="quote-slide' + (i === 0 ? ' active' : '') + '"><p>"' + text + '"</p><span class="quote-author">' + author + '</span></div>';
+                        }).join('');
+                    }
+                }
+                // Re-bind arrows after rebuilding slides
+                initQuoteSlider();
+
+                // MUSIC
+                var musicUrl = get('music', 'video_url');
+                if (musicUrl) {
+                    var musicIframe = document.querySelector('.music-video iframe');
+                    if (musicIframe) {
+                        // Convert to embed if needed
+                        var embedUrl = musicUrl;
+                        if (!embedUrl.includes('/embed/')) {
+                            var match = embedUrl.match(/[?&]v=([^&]+)/);
+                            if (match) embedUrl = 'https://www.youtube.com/embed/' + match[1];
+                            else {
+                                match = embedUrl.match(/youtu\.be\/([^?&]+)/);
+                                if (match) embedUrl = 'https://www.youtube.com/embed/' + match[1];
+                            }
+                        }
+                        musicIframe.src = embedUrl;
+                    }
+                }
+                var musicLabel = get('music', 'label');
+                if (musicLabel) {
+                    var labelEl = document.querySelector('.music-label em');
+                    if (labelEl) labelEl.textContent = musicLabel;
+                }
+
+            } catch (err) {
+                console.log('Homepage API unavailable, using static content');
+            }
+        }
+
+        loadHomepageContent();
+    </script>
     <script>
         // Mobile Menu - inline to ensure it works
         document.addEventListener('DOMContentLoaded', function() {
@@ -218,28 +320,40 @@
 
             document.querySelectorAll('.copyright-year').forEach(function(el) { el.textContent = new Date().getFullYear(); });
 
-            // Quote Slideshow
+            // Init quote slider — called here for static fallback and re-called after API load
+            initQuoteSlider();
+        });
+
+        function initQuoteSlider() {
             var quoteSlides = document.querySelectorAll('.quote-slide');
             var currentQuote = 0;
             var prevBtn = document.getElementById('quotePrev');
             var nextBtn = document.getElementById('quoteNext');
 
-            if (prevBtn && nextBtn && quoteSlides.length > 0) {
-                nextBtn.addEventListener('click', function() {
-                    quoteSlides[currentQuote].classList.remove('active', 'slide-left', 'slide-right');
-                    currentQuote = (currentQuote + 1) % quoteSlides.length;
-                    quoteSlides[currentQuote].classList.remove('slide-left', 'slide-right');
-                    quoteSlides[currentQuote].classList.add('active', 'slide-right');
-                });
+            if (!prevBtn || !nextBtn || quoteSlides.length === 0) return;
 
-                prevBtn.addEventListener('click', function() {
-                    quoteSlides[currentQuote].classList.remove('active', 'slide-left', 'slide-right');
-                    currentQuote = (currentQuote - 1 + quoteSlides.length) % quoteSlides.length;
-                    quoteSlides[currentQuote].classList.remove('slide-left', 'slide-right');
-                    quoteSlides[currentQuote].classList.add('active', 'slide-left');
-                });
-            }
-        });
+            // Clone buttons to remove old listeners
+            var newNext = nextBtn.cloneNode(true);
+            var newPrev = prevBtn.cloneNode(true);
+            nextBtn.parentNode.replaceChild(newNext, nextBtn);
+            prevBtn.parentNode.replaceChild(newPrev, prevBtn);
+
+            newNext.addEventListener('click', function() {
+                var slides = document.querySelectorAll('.quote-slide');
+                slides[currentQuote].classList.remove('active', 'slide-left', 'slide-right');
+                currentQuote = (currentQuote + 1) % slides.length;
+                slides[currentQuote].classList.remove('slide-left', 'slide-right');
+                slides[currentQuote].classList.add('active', 'slide-right');
+            });
+
+            newPrev.addEventListener('click', function() {
+                var slides = document.querySelectorAll('.quote-slide');
+                slides[currentQuote].classList.remove('active', 'slide-left', 'slide-right');
+                currentQuote = (currentQuote - 1 + slides.length) % slides.length;
+                slides[currentQuote].classList.remove('slide-left', 'slide-right');
+                slides[currentQuote].classList.add('active', 'slide-left');
+            });
+        }
     </script>
 
 </body>

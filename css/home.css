@@ -426,6 +426,14 @@
     .music-section {
         padding: 35px 20px;
     }
+
+    .music-video {
+        max-width: 100%;
+    }
+
+    .music-video iframe {
+        height: 180px;
+    }
 }
 
 /* ===== RESPONSIVE: Small Mobile ===== */
@@ -445,5 +453,9 @@
 
     .quote-text p {
         font-size: 18px;
+    }
+
+    .home-main {
+        padding: 0 12px;
     }
 }

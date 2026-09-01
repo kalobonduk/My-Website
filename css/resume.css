@@ -199,19 +199,33 @@ body:has(.resume-page) nav {
 
 @media (max-width: 600px) {
     .resume-hero {
-        padding: 30px 20px;
+        padding: 25px 15px;
+        gap: 25px;
     }
 
     .resume-hero h1 {
-        font-size: 24px;
+        font-size: 22px;
+    }
+
+    .resume-accordion-header {
+        padding: 14px 16px;
     }
 
     .resume-accordion-header span {
-        font-size: 15px;
+        font-size: 14px;
+    }
+
+    .resume-accordion-body {
+        padding: 0 16px;
+    }
+
+    .accordion-item {
+        padding: 14px 0;
     }
 
     .accordion-item h4 {
-        font-size: 14px;
+        font-size: 13px;
+        line-height: 1.4;
     }
 
     .accordion-item p,
@@ -219,8 +233,31 @@ body:has(.resume-page) nav {
         font-size: 13px;
     }
 
+    .accordion-item ul {
+        padding-left: 16px;
+    }
+
+    .courses-btn {
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+
     .resume-section {
-        margin: 20px 15px;
-        padding: 25px 15px;
+        margin: 15px 10px;
+        padding: 20px 12px;
+    }
+}
+
+@media (max-width: 380px) {
+    .resume-hero {
+        padding: 20px 12px;
+    }
+
+    .resume-hero h1 {
+        font-size: 20px;
+    }
+
+    .resume-accordion-header span {
+        font-size: 13px;
     }
 }
